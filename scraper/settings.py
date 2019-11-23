@@ -16,9 +16,9 @@ NEWSPIDER_MODULE = 'scraper.spiders'
 
 FEED_URI = '../data/%(name)s/%(time)s.csv'
 FEED_FORMAT = 'csv'
-FEED_EXPORT_FIELDS = ['title', 'title_feature', 'price', 'author_feature', 'description', 'category', 'amount', 'active', 'images']
+FEED_EXPORT_FIELDS = ['title', 'price', 'features', 'description', 'category', 'amount', 'active', 'images']
 
-# LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'INFO'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'scraper (+http://www.yourdomain.com)'

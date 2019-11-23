@@ -11,10 +11,8 @@ import scrapy
 class BookItem(scrapy.Item):
     # define the fields for your item here like:
     title = scrapy.Field()
-    title_feature = scrapy.Field()
     price = scrapy.Field()
-    author_feature = scrapy.Field()
-    publisher_feature = scrapy.Field()
+    features = scrapy.Field()
     description = scrapy.Field()
     category = scrapy.Field()
     amount = scrapy.Field()

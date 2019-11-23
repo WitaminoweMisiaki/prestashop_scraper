@@ -15,18 +15,6 @@ class BooksSpider(CrawlSpider):
     name = "books"
 
     allowed_domains = ["www.empik.com"]
-    # start_urls = [
-    #     'https://www.empik.com/bestsellery/ksiazki',
-    #     'https://www.empik.com/bestsellery/ebooki',
-    #     'https://www.empik.com/bestsellery/ksiazki?searchCategory=3167&hideUnavailable=true&qtype=facetForm',
-    #     'https://www.empik.com/bestsellery/prasa',
-    #     'https://www.empik.com/bestsellery/muzyka',
-    #     'https://www.empik.com/bestsellery/filmy',
-    #     'https://www.empik.com/bestsellery/gry-i-konsole',
-    #     'https://www.empik.com/bestsellery/szkolne-i-papiernicze',
-    #     'https://www.empik.com/bestsellery/elektronika',
-    #     'https://www.empik.com/bestsellery/zabawki',
-    # ]
 
     books = [
         'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=%d&novelties=novelty' %
@@ -53,7 +41,6 @@ class BooksSpider(CrawlSpider):
 
     # list of tuples: (child category, parent category)
     # order is important!
-    # categories = []
     categories = []
 
     # def parse_item(self, response):
@@ -71,7 +58,9 @@ class BooksSpider(CrawlSpider):
         title = response.xpath('//h1[@class="productBaseInfo__title ta-product-title"]/text()').extract()
         title = ''.join(title).strip()
 
+        features = str()
         title_feature = 'Tytuł:%s:0:1' % title
+        features = '%s%s;' % (features, title_feature)
 
         price = response.xpath('//span[@class="productPriceInfo__price ta-price  withoutLpPromo"]/text()').extract()[0]
         price = price.strip()[:-3].replace(',', '.')
@@ -84,16 +73,30 @@ class BooksSpider(CrawlSpider):
         elif author_type == 'Wykonawca:':
             author_feature = 'Wykonawca:%s:1:0' % author_content
 
-        publisher_feature = ''
-        publisher_content = response.xpath('//div[@class="productBaseInfo__subtitle"]/span/@content').extract()[0]
-        publisher_type = response.xpath('//td[@class="productDetailsLabel ta-label"]/text()').extract()[0]
-        if publisher_type == 'Autor:':
-            publisher_feature = 'Autor:%s:1:0' % publisher_content
-        elif publisher_type == 'Wykonawca:':
-            publisher_feature = 'Wykonawca:%s:1:0' % publisher_content
+        features = '%s%s;' % (features, author_feature)
 
-        # features = []
-        # list(map(lambda x: self.encode(x), image_urls))
+        publisher_feature = ''
+        # content as one column of table
+        publisher_content = response.xpath(
+            '//tr[@class="row--text row--text  attributeName ta-attribute-row"]/td/span//text()').extract()
+        # remove empty values
+        publisher_content = list(filter(None, list(map(lambda x: x.strip(), publisher_content))))
+
+        # publisher type as one column of table
+        publisher_type = response.xpath(
+            '//tr[@class="row--text row--text  attributeName ta-attribute-row"]/td/text()').extract()
+        # remove empty values
+        publisher_type = list(filter(None, list(map(lambda x: x.strip(), publisher_type))))
+
+        # get indexes of strings which contain phrases
+        if_publisher = [i for i, pub_type in enumerate(publisher_type) if 'Wydawnictwo' in pub_type]
+        if_distributor = [i for i, pub_type in enumerate(publisher_type) if 'Dystrybutor' in pub_type]
+        if if_publisher:
+            publisher_feature = 'Wydawnictwo:%s:2:0' % publisher_content[if_publisher[0]]
+        elif if_distributor:
+            publisher_feature = 'Dystrybutor:%s:2:0' % publisher_content[if_publisher[0]]
+
+        features = '%s%s;' % (features, publisher_feature)
 
         description = response.xpath(
             '//div[@class="productComments productDescription ta-product-description "]//text()').extract()
@@ -113,10 +116,8 @@ class BooksSpider(CrawlSpider):
             '//div[contains(@class, "productGallery__mainImage")]/div/img/@src').extract()
 
         item['title'] = self.encode(title)
-        item['title_feature'] = self.encode(title_feature)
         item['price'] = self.encode(price)
-        item['author_feature'] = self.encode(author_feature)
-        item['publisher_feature'] = self.encode(publisher_feature)
+        item['features'] = self.encode(features)
         item['description'] = self.encode(description)
         item['category'] = self.encode(category)
         item['amount'] = self.encode(amount)
@@ -127,8 +128,7 @@ class BooksSpider(CrawlSpider):
 
     def scrape_categories_tree(self, category):
         for i in range(1, len(category)):
-            # self.categories.append(['%s' % category[i], '%s' % category[i - 1]])
-            self.categories.append(('%s' % self.encode(category[i]), '%s' % self.encode(category[i - 1])))
+            self.categories.append(('%s' % category[i], '%s' % category[i - 1]))
 
     def encode(self, string):
         # remove Latin1 \xa0 characters
@@ -140,17 +140,15 @@ class BooksSpider(CrawlSpider):
         root_categories = self.separate_root_categories()
 
         field_names = ['id', 'category', 'parent_category', 'active', 'root_category']
-        with open('../data/categories/%s.csv' % str(time.strftime("%Y-%m-%dT%H-%M-%S")), 'w', newline='') as file:
-            # file.writelines('id,category,parent_category,active,root_category\n')
+        with open('../data/categories/%s.csv' % str(time.strftime("%Y-%m-%dT%H-%M-%S")), 'w', newline='',
+                  encoding='utf-8') as file:
             csv_writer = csv.DictWriter(file, field_names)
             csv_writer.writeheader()
 
             # write root categories
             for i in range(len(root_categories)):
-                # row = '{0},{1},2,1,0\n'.format(i + 3, root_categories[i][0])  # prestashop -> id=1 root, id=2 home
-                # file.writelines(self.encode(row))
                 csv_writer.writerow({'id': str(i + 3),
-                                     'category': root_categories[i][0],
+                                     'category': self.encode(root_categories[i][0]),
                                      'parent_category': str(2),
                                      'active': str(1),
                                      'root_category': str(0)})
@@ -172,10 +170,8 @@ class BooksSpider(CrawlSpider):
                 else:
                     parent_id = parent_id[0] + 3
 
-                # row = '{0},{1},{2},1,0\n'.format(cat_id, cat[0], parent_id)
-                # file.writelines(self.encode(row))
                 csv_writer.writerow({'id': str(cat_id),
-                                     'category': cat[0],
+                                     'category': self.encode(cat[0]),
                                      'parent_category': str(parent_id),
                                      'active': str(1),
                                      'root_category': str(0)})
