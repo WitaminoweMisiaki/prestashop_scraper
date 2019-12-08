@@ -241,5 +241,6 @@ class BooksSpider(CrawlSpider):
             if root_flag is True:
                 root_categories.add(parent_cat[1])
 
+        root_categories.add("Muzyka")
         root_categories = [[elem, ""] for elem in root_categories]
         return root_categories

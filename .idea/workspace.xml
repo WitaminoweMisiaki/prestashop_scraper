@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f1fc6d9-bac7-4428-9302-63787b2b041f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scraper/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/pipelines.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scraper/spiders/books.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/spiders/books.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scraper/spiders/books.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="59" column="114" lean-forward="true" selection-start-line="59" selection-start-column="114" selection-end-line="59" selection-end-column="114" />
+            <state relative-caret-position="690">
+              <caret line="246" lean-forward="true" selection-start-line="246" selection-end-line="246" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
               </folding>
@@ -179,12 +177,12 @@
       <workItem from="1574514239903" duration="747000" />
       <workItem from="1574675671653" duration="78000" />
       <workItem from="1574677229770" duration="4000" />
-      <workItem from="1575828784398" duration="6712000" />
+      <workItem from="1575828784398" duration="7212000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9566000" />
+    <option name="totallyTimeSpent" value="10066000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -197,6 +195,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13432837" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -213,7 +212,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.39869988" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.12026002" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -261,8 +260,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scraper/spiders/books.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="49">
-          <caret line="59" column="114" lean-forward="true" selection-start-line="59" selection-start-column="114" selection-end-line="59" selection-end-column="114" />
+        <state relative-caret-position="690">
+          <caret line="246" lean-forward="true" selection-start-line="246" selection-end-line="246" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
           </folding>
