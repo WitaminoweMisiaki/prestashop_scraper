@@ -16,27 +16,53 @@ class BooksSpider(CrawlSpider):
 
     allowed_domains = ["www.empik.com"]
 
-    books = [
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=%d&novelties=novelty' %
-        i for i in range(1, 270, 30)]
-    ebooks = [
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=%d&novelties=novelty' %
-        i for i in range(1, 270, 30)]
-    press = [
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=%d&novelties=novelty' %
-        i for i in range(1, 270, 30)]
-    music = [
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=%d&novelties=novelty' %
-        i for i in range(1, 270, 30)]
-
+    # each page has 30 products, 9 pages per each from 4 categories -> 30*9*4 = 1080 products
     start_urls = [
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=1&novelties=novelty']
+        # books
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=241&novelties=novelty',
+        # ebooks
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=241&novelties=novelty',
+        # press
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=241&novelties=novelty',
+
+        # music
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=241&novelties=novelty'
+    ]
 
     # rules = (
     #     Rule(LinkExtractor(allow=(), restrict_css=('.arrow',)), callback='parse_item', follow=True),
-    # )
-    # rules = (
-    #     Rule(LinkExtractor(allow=(), restrict_css=()), callback='parse_item', follow=True),
     # )
 
     # list of tuples: (child category, parent category)
@@ -59,44 +85,60 @@ class BooksSpider(CrawlSpider):
         title = ''.join(title).strip()
 
         features = str()
-        title_feature = 'Tytuł:%s:0:1' % title
+        title_feature = 'Tytuł:%s:1:1' % title
         features = '%s%s;' % (features, title_feature)
 
         price = response.xpath('//span[@class="productPriceInfo__price ta-price  withoutLpPromo"]/text()').extract()[0]
         price = price.strip()[:-3].replace(',', '.')
 
         author_feature = ''
-        author_content = response.xpath('//div[@class="productBaseInfo__subtitle"]/span/@content').extract()[0]
-        author_type = response.xpath('//td[@class="productDetailsLabel ta-label"]/text()').extract()[0]
+        author_content = response.xpath('//div[@class="productBaseInfo__subtitle"]/span/@content').extract()
+        author_type = response.xpath('//td[@class="productDetailsLabel ta-label"]/text()').extract()
+
+        # extract author info if it exists
+        author_content = author_content[0] if author_content else ''
+        author_type = author_type[0] if author_type else ''
+
         if author_type == 'Autor:':
-            author_feature = 'Autor:%s:1:0' % author_content
+            author_feature = 'Autor:%s:2:0' % author_content
         elif author_type == 'Wykonawca:':
-            author_feature = 'Wykonawca:%s:1:0' % author_content
+            author_feature = 'Wykonawca:%s:2:0' % author_content
 
         features = '%s%s;' % (features, author_feature)
 
-        publisher_feature = ''
         # content as one column of table
-        publisher_content = response.xpath(
+        attributes_content = response.xpath(
             '//tr[@class="row--text row--text  attributeName ta-attribute-row"]/td/span//text()').extract()
         # remove empty values
-        publisher_content = list(filter(None, list(map(lambda x: x.strip(), publisher_content))))
+        attributes_content = list(filter(None, list(map(lambda x: x.strip(), attributes_content))))
 
-        # publisher type as one column of table
-        publisher_type = response.xpath(
+        # types as one column of table
+        attributes_type = response.xpath(
             '//tr[@class="row--text row--text  attributeName ta-attribute-row"]/td/text()').extract()
         # remove empty values
-        publisher_type = list(filter(None, list(map(lambda x: x.strip(), publisher_type))))
+        attributes_type = list(filter(None, list(map(lambda x: x.strip(), attributes_type))))
 
+        publisher_feature = ''
         # get indexes of strings which contain phrases
-        if_publisher = [i for i, pub_type in enumerate(publisher_type) if 'Wydawnictwo' in pub_type]
-        if_distributor = [i for i, pub_type in enumerate(publisher_type) if 'Dystrybutor' in pub_type]
+        if_publisher = [i for i, attr_type in enumerate(attributes_type) if 'Wydawnictwo' in attr_type]
+        if_distributor = [i for i, attr_type in enumerate(attributes_type) if 'Dystrybutor' in attr_type]
         if if_publisher:
-            publisher_feature = 'Wydawnictwo:%s:2:0' % publisher_content[if_publisher[0]]
+            publisher_feature = 'Wydawnictwo:%s:3:0' % attributes_content[if_publisher[0]]
         elif if_distributor:
-            publisher_feature = 'Dystrybutor:%s:2:0' % publisher_content[if_publisher[0]]
+            publisher_feature = 'Dystrybutor:%s:3:0' % attributes_content[if_distributor[0]]
 
         features = '%s%s;' % (features, publisher_feature)
+
+        media_type_feature = ''
+        # get indexes of strings which contain phrases
+        if_pages_number = [i for i, attr_type in enumerate(attributes_type) if 'Liczba stron' in attr_type]
+        if_media = [i for i, attr_type in enumerate(attributes_type) if 'Nośnik' in attr_type]
+        if if_pages_number:
+            media_type_feature = 'Liczba stron:%s:4:1' % attributes_content[if_pages_number[0]]
+        elif if_media:
+            media_type_feature = 'Nośnik:%s:4:0' % attributes_content[if_media[0]]
+
+        features = '%s%s;' % (features, media_type_feature)
 
         description = response.xpath(
             '//div[@class="productComments productDescription ta-product-description "]//text()').extract()
@@ -166,7 +208,7 @@ class BooksSpider(CrawlSpider):
                 parent_id = [i for i, cat_tuple in enumerate(root_categories) if
                              cat_tuple[1] != cat[1] and cat_tuple[0] == cat[1]]
                 if not parent_id:
-                    parent_id = 2  # TODO
+                    parent_id = 2  # should not enter here TODO
                 else:
                     parent_id = parent_id[0] + 3
 

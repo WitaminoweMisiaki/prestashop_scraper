@@ -4,9 +4,6 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-import base64
-import os
-
 from scrapy.exceptions import DropItem
 
 
@@ -24,12 +21,6 @@ class ImagePathPipeline(object):
             url = 'http://witaminowemisiaki.ml/imgimports/' + image["path"].split('/')[-1]
             url = url.encode('utf-8').decode('utf-8')
             item["images"].append(url)
-            # item["images"].append(os.getcwd() + '/' + image["path"])
-
-        # for image in images:
-        #     with open('data/images/' + image["path"], "rb") as image_file:
-        #         encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
-        #         item["images"].append(encoded_string)
         return item
 
 
