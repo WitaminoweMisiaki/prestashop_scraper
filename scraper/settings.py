@@ -14,7 +14,8 @@ BOT_NAME = 'scraper'
 SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 
-FEED_URI = '../data/%(name)s/%(time)s.csv'
+# FEED_URI = '../data/%(name)s/%(time)s.csv'
+FEED_URI = '../data/%(name)s/final_products.csv'
 FEED_FORMAT = 'csv'
 FEED_EXPORT_FIELDS = ['title', 'price', 'features', 'description', 'category', 'amount', 'active', 'images']
 
