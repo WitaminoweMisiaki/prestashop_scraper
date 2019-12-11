@@ -20,45 +20,45 @@ class BooksSpider(CrawlSpider):
     start_urls = [
         # books
         'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=1&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=31&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=61&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=91&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=121&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=151&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=181&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=211&novelties=novelty',
-        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=241&novelties=novelty',
-        # ebooks
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=1&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=31&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=61&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=91&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=121&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=151&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=181&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=211&novelties=novelty',
-        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=241&novelties=novelty',
-        # press
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=1&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=31&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=61&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=91&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=121&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=151&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=181&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=211&novelties=novelty',
-        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=241&novelties=novelty',
-
-        # music
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=1&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=31&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=61&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=91&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=121&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=151&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=181&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=211&novelties=novelty',
-        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=241&novelties=novelty'
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=31&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=61&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=91&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=121&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=151&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=181&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=211&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=241&novelties=novelty',
+        # # ebooks
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=1&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=31&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=61&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=91&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=121&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=151&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=181&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=211&novelties=novelty',
+        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=241&novelties=novelty',
+        # # press
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=1&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=31&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=61&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=91&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=121&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=151&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=181&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=211&novelties=novelty',
+        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=241&novelties=novelty',
+        #
+        # # music
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=1&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=31&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=61&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=91&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=121&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=151&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=181&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=211&novelties=novelty',
+        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=241&novelties=novelty'
     ]
 
     # rules = (
@@ -170,7 +170,8 @@ class BooksSpider(CrawlSpider):
 
         category = response.xpath('//div[@class="empikBreadcrumb"]//ul/li/a/span/text()').extract()[1:]
         self.scrape_categories_tree(category)
-        category = category[-1]
+        category = '~~'.join(category)
+        # category = category[-1]
 
         amount = str(random.randrange(0, 60))
 
@@ -184,6 +185,7 @@ class BooksSpider(CrawlSpider):
         item['features'] = self.encode(features)
         item['description'] = self.encode(description)
         item['category'] = self.encode(category)
+        # item['category'] = list(map(lambda x: self.encode(x), category))
         item['amount'] = self.encode(amount)
         item["active"] = self.encode(active)
         item['image_urls'] = list(map(lambda x: self.encode(x), image_urls))
@@ -240,6 +242,7 @@ class BooksSpider(CrawlSpider):
                                      'parent_category': str(parent_id),
                                      'active': str(1),
                                      'root_category': str(0)})
+        self.correct_csv_file()
 
     def remove_categories_duplicates(self):
         for i in range(len(self.categories)):
@@ -267,3 +270,42 @@ class BooksSpider(CrawlSpider):
         root_categories.add("Muzyka")
         root_categories = [[elem, ""] for elem in root_categories]
         return root_categories
+
+    def correct_csv_file(self):
+        with open('../data/books/final_products.csv', newline='', encoding='utf-8') as in_file:
+            csv_reader = csv.reader(in_file.readlines())
+
+        with open('../data/books/final_products.csv', 'w', newline='', encoding='utf-8') as out_file:
+            csv_writer = csv.writer(out_file)
+            header = next(csv_reader)
+          #  csv_writer.writerow(header)
+            for line in csv_reader:
+                category_id = self.find_category_id(line[4])
+                line[4] = category_id
+                csv_writer.writerow(line)
+
+    def find_category_id(self, input_categories):
+        categories = input_categories.split('~~')
+        categories.reverse()
+
+        cat_id = []
+        with open('../data/categories/final_categoriess.csv', newline='', encoding='utf-8') as in_file:
+            csv_reader = csv.reader(in_file.readlines())
+            for line in csv_reader:
+                if line[1] == categories[0]:
+                    cat_id.append(self.find(categories[1:], line[2], line[0]))
+
+        cat_id = list(filter(None, cat_id))[0]
+        return cat_id
+
+    def find(self, categories, parent_category, cat_id):
+        if parent_category == '2':
+            return cat_id
+        else:
+            with open('../data/categories/final_categoriess.csv', newline='', encoding='utf-8') as in_file:
+                csv_reader = csv.reader(in_file.readlines())
+                for line in csv_reader:
+                    if line[0] == parent_category and line[1] == categories[0]:
+                        return self.find(categories[1:], line[2], cat_id)
+
+            return None
