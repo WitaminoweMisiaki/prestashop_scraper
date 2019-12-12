@@ -2,7 +2,6 @@
 import csv
 import unicodedata
 import random
-import time
 
 import scrapy
 from scrapy.linkextractors import LinkExtractor
@@ -106,12 +105,6 @@ class BooksSpider(CrawlSpider):
 
         features = '%s%s;' % (features, author_feature)
 
-        # content as one column of table
-        # attributes_content = response.xpath(
-        #     '//tr[@class="row--text row--text  attributeName ta-attribute-row"]/td/span//text()').extract()
-        # remove empty values
-        # attributes_content = list(filter(None, list(map(lambda x: x.strip(), attributes_content))))
-
         # types as one column of table
         attributes_type = response.xpath(
             '//tr[@class="row--text row--text  attributeName ta-attribute-row"]/td/text()').extract()
@@ -128,7 +121,6 @@ class BooksSpider(CrawlSpider):
             # values on website are duplicated
             publisher_content = list(set(publisher_content))[0]
             publisher_content = ''.join(publisher_content)
-            # publisher_feature = 'Wydawnictwo:%s:3:0' % attributes_content[if_publisher[0]]
             publisher_feature = 'Wydawnictwo:%s:3:0' % publisher_content
         elif if_distributor:
             publisher_content = response.xpath('//tr[td="\nDystrybutor:\n"]/td[2]//text()').extract()
@@ -149,7 +141,6 @@ class BooksSpider(CrawlSpider):
             media_type_content = list(filter(None, list(map(lambda x: x.strip(), media_type_content))))
             # values on website are duplicated
             media_type_content = list(set(media_type_content))[0]
-            # media_type_feature = 'Liczba stron:%s:4:1' % attributes_content[if_pages_number[0]]
             media_type_feature = 'Liczba stron:%s:4:1' % media_type_content
         elif if_media:
             media_type_content = response.xpath('//tr[td="\nNośnik:\n"]/td[2]//text()').extract()
@@ -157,16 +148,15 @@ class BooksSpider(CrawlSpider):
             # values on website are duplicated
             media_type_content = list(set(media_type_content))[0]
             media_type_content = ''.join(media_type_content)
-            # media_type_feature = 'Nośnik:%s:4:0' % attributes_content[if_media[0]]
             media_type_feature = 'Nośnik:%s:4:0' % media_type_content
 
         features = '%s%s;' % (features, media_type_feature)
 
         description = response.xpath(
-            '//div[@class="productComments productDescription ta-product-description "]//text()').extract()
-        description = ' '.join(description).strip()
-        description = '<p>%s</p>' % description
-        description = description.replace('\n', '</p><p>')
+            '//div[@class="productComments productDescription ta-product-description "]//text()')
+        description = list(
+            map(lambda y: '<p>%s</p>' % y, list(filter(None, list(map(lambda x: x.extract().strip(), description))))))
+        description = ''.join(description)
 
         category = response.xpath('//div[@class="empikBreadcrumb"]//ul/li/a/span/text()').extract()[1:]
         self.scrape_categories_tree(category)
@@ -185,7 +175,6 @@ class BooksSpider(CrawlSpider):
         item['features'] = self.encode(features)
         item['description'] = self.encode(description)
         item['category'] = self.encode(category)
-        # item['category'] = list(map(lambda x: self.encode(x), category))
         item['amount'] = self.encode(amount)
         item["active"] = self.encode(active)
         item['image_urls'] = list(map(lambda x: self.encode(x), image_urls))
@@ -206,8 +195,6 @@ class BooksSpider(CrawlSpider):
         root_categories = self.separate_root_categories()
 
         field_names = ['id', 'category', 'parent_category', 'active', 'root_category']
-        # with open('../data/categories/%s.csv' % str(time.strftime("%Y-%m-%dT%H-%M-%S")), 'w', newline='',
-        #           encoding='utf-8') as file:
         with open('../data/categories/final_categoriess.csv', 'w', newline='', encoding='utf-8') as file:
             csv_writer = csv.DictWriter(file, field_names)
             csv_writer.writeheader()
@@ -267,7 +254,7 @@ class BooksSpider(CrawlSpider):
             if root_flag is True:
                 root_categories.add(parent_cat[1])
 
-        root_categories.add("Muzyka")
+        root_categories.add("Muzyka")  # data on website is corrupted
         root_categories = [[elem, ""] for elem in root_categories]
         return root_categories
 
@@ -278,7 +265,7 @@ class BooksSpider(CrawlSpider):
         with open('../data/books/final_products.csv', 'w', newline='', encoding='utf-8') as out_file:
             csv_writer = csv.writer(out_file)
             header = next(csv_reader)
-          #  csv_writer.writerow(header)
+            #  csv_writer.writerow(header)
             for line in csv_reader:
                 category_id = self.find_category_id(line[4])
                 line[4] = category_id
