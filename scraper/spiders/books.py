@@ -4,71 +4,62 @@ import unicodedata
 import random
 
 import scrapy
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
+from scrapy.spiders import CrawlSpider
 
 from scraper.items import BookItem
+from scraper.data_structures.tree import Tree
 
 
 class BooksSpider(CrawlSpider):
     name = "books"
-
     allowed_domains = ["www.empik.com"]
 
     # each page has 30 products, 9 pages per each from 4 categories -> 30*9*4 = 1080 products
     start_urls = [
         # books
         'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=1&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=31&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=61&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=91&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=121&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=151&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=181&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=211&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=241&novelties=novelty',
-        # # ebooks
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=1&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=31&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=61&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=91&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=121&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=151&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=181&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=211&novelties=novelty',
-        # 'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=241&novelties=novelty',
-        # # press
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=1&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=31&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=61&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=91&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=121&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=151&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=181&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=211&novelties=novelty',
-        # 'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=241&novelties=novelty',
-        #
-        # # music
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=1&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=31&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=61&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=91&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=121&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=151&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=181&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=211&novelties=novelty',
-        # 'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=241&novelties=novelty'
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/ksiazki?searchCategory=31&hideUnavailable=true&start=241&novelties=novelty',
+        # ebooks
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/ebooki?searchCategory=3501&hideUnavailable=true&start=241&novelties=novelty',
+        # press
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/prasa?searchCategory=44&hideUnavailable=true&start=241&novelties=novelty',
+
+        # music
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=1&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=31&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=61&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=91&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=121&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=151&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=181&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=211&novelties=novelty',
+        'https://www.empik.com/nowosci/muzyka?searchCategory=32&hideUnavailable=true&start=241&novelties=novelty'
     ]
+    categories_tree = Tree()
 
-    # rules = (
-    #     Rule(LinkExtractor(allow=(), restrict_css=('.arrow',)), callback='parse_item', follow=True),
-    # )
-
-    # list of tuples: (child category, parent category)
-    # order is important!
-    categories = []
-
-    # def parse_item(self, response):
     def parse(self, response):
         item_links = response.xpath('//a[@class="seoTitle"]/@href').extract()
 
@@ -159,9 +150,7 @@ class BooksSpider(CrawlSpider):
         description = ''.join(description)
 
         category = response.xpath('//div[@class="empikBreadcrumb"]//ul/li/a/span/text()').extract()[1:]
-        self.scrape_categories_tree(category)
-        category = '~~'.join(category)
-        # category = category[-1]
+        category = str(self.create_categories_tree(category))
 
         amount = str(random.randrange(0, 60))
 
@@ -181,9 +170,9 @@ class BooksSpider(CrawlSpider):
 
         yield item
 
-    def scrape_categories_tree(self, category):
-        for i in range(1, len(category)):
-            self.categories.append(('%s' % category[i], '%s' % category[i - 1]))
+    def create_categories_tree(self, categories_path):
+        category_id = self.categories_tree.add_path(categories_path)
+        return category_id
 
     def encode(self, string):
         # remove Latin1 \xa0 characters
@@ -191,108 +180,23 @@ class BooksSpider(CrawlSpider):
         return string.encode('utf-8').decode('utf-8')
 
     def closed(self, reason):
-        self.remove_categories_duplicates()
-        root_categories = self.separate_root_categories()
+        self.write_categories_to_csv()
 
+    def write_categories_to_csv(self):
         field_names = ['id', 'category', 'parent_category', 'active', 'root_category']
-        with open('../data/categories/final_categoriess.csv', 'w', newline='', encoding='utf-8') as file:
+        with open('../data/categories/final_categories.csv', 'w', newline='', encoding='utf-8') as file:
             csv_writer = csv.DictWriter(file, field_names)
             csv_writer.writeheader()
 
-            # write root categories
-            for i in range(len(root_categories)):
-                csv_writer.writerow({'id': str(i + 3),
-                                     'category': self.encode(root_categories[i][0]),
-                                     'parent_category': str(2),
+            for root_category in self.categories_tree.root.children:
+                csv_writer.writerow({'id': str(root_category.uid),
+                                     'category': self.encode(root_category.name),
+                                     'parent_category': str(root_category.parent_uid),
                                      'active': str(1),
                                      'root_category': str(0)})
-
-            # write other categories
-            for cat in self.categories:
-                cat_id = [i for i, cat_tuple in enumerate(root_categories) if
-                          cat_tuple[0] == cat[0] and cat_tuple[1] == cat[1]]
-                if not cat_id:
-                    root_categories.append([cat[0], cat[1]])
-                    cat_id = len(root_categories) + 2
-                else:
-                    cat_id = cat_id[0] + 3
-
-                parent_id = [i for i, cat_tuple in enumerate(root_categories) if
-                             cat_tuple[1] != cat[1] and cat_tuple[0] == cat[1]]
-                if not parent_id:
-                    parent_id = 2  # should not enter here TODO
-                else:
-                    parent_id = parent_id[0] + 3
-
-                csv_writer.writerow({'id': str(cat_id),
-                                     'category': self.encode(cat[0]),
-                                     'parent_category': str(parent_id),
-                                     'active': str(1),
-                                     'root_category': str(0)})
-        self.correct_csv_file()
-
-    def remove_categories_duplicates(self):
-        for i in range(len(self.categories)):
-            for j in range(i, len(self.categories)):
-                if i != j and self.categories[i] and self.categories[j] and self.categories[i][0] == self.categories[j][
-                    0] and self.categories[i][1] == self.categories[j][1]:
-                    self.categories[j] = []
-
-        self.categories = [list for list in self.categories if list != []]
-
-    def separate_root_categories(self):
-        # do not change set
-        root_categories = set()
-
-        for parent_cat in self.categories:
-            root_flag = True
-            for child_cat in self.categories:
-                # check if there is parent category for category
-                if child_cat[0] == parent_cat[1]:
-                    root_flag = False
-                    break
-            if root_flag is True:
-                root_categories.add(parent_cat[1])
-
-        root_categories.add("Muzyka")  # data on website is corrupted
-        root_categories = [[elem, ""] for elem in root_categories]
-        return root_categories
-
-    def correct_csv_file(self):
-        with open('../data/books/final_products.csv', newline='', encoding='utf-8') as in_file:
-            csv_reader = csv.reader(in_file.readlines())
-
-        with open('../data/books/final_products.csv', 'w', newline='', encoding='utf-8') as out_file:
-            csv_writer = csv.writer(out_file)
-            header = next(csv_reader)
-            #  csv_writer.writerow(header)
-            for line in csv_reader:
-                category_id = self.find_category_id(line[4])
-                line[4] = category_id
-                csv_writer.writerow(line)
-
-    def find_category_id(self, input_categories):
-        categories = input_categories.split('~~')
-        categories.reverse()
-
-        cat_id = []
-        with open('../data/categories/final_categoriess.csv', newline='', encoding='utf-8') as in_file:
-            csv_reader = csv.reader(in_file.readlines())
-            for line in csv_reader:
-                if line[1] == categories[0]:
-                    cat_id.append(self.find(categories[1:], line[2], line[0]))
-
-        cat_id = list(filter(None, cat_id))[0]
-        return cat_id
-
-    def find(self, categories, parent_category, cat_id):
-        if parent_category == '2':
-            return cat_id
-        else:
-            with open('../data/categories/final_categoriess.csv', newline='', encoding='utf-8') as in_file:
-                csv_reader = csv.reader(in_file.readlines())
-                for line in csv_reader:
-                    if line[0] == parent_category and line[1] == categories[0]:
-                        return self.find(categories[1:], line[2], cat_id)
-
-            return None
+                for category in self.categories_tree.get_children_nodes(root_category):
+                    csv_writer.writerow({'id': str(category.uid),
+                                         'category': self.encode(category.name),
+                                         'parent_category': str(category.parent_uid),
+                                         'active': str(1),
+                                         'root_category': str(0)})
